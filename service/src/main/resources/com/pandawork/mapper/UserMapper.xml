@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pandawork.mapper.UserMapper">
+    <insert id="newUser">
+          INSERT INTO `t_user`(
+          `u_name`,`u_pwd`,`is_admin`
+          )VALUES (
+           #{user.uname},
+           #{user.upwd},
+           #{user.isadmin}
+          )
+    </insert>
+    <delete id="delById">
+        DELETE FROM `t_user`
+        WHERE `u_id` = #{uid}
+    </delete>
+    <update id="update">
+        UPDATE `t_user`
+        SET
+            `u_name` = #{user.uname},
+            `u_pwd` = #{user.upwd}
+        WHERE `u_id` = #{user.uid}
+    </update>
+    <select id="queryById" resultMap="pw.User">
+        SELECT `u_id`,`u_name`,`u_pwd`
+        FROM `t_user`
+        WHERE `u_id` = #{uid}
+    </select>
+    <select id="queryByName" resultMap="pw.User">
+        SELECT *
+        FROM `t_user`
+        WHERE `u_name` = #{uname}
+    </select>
+    <select id="listAll" resultMap="pw.User">
+        SELECT  `u_id`,`u_name`,`u_pwd`,`is_admin`
+        FROM `t_user`
+    </select>
+    <select id="countAll" resultType="int">
+        SELECT COUNT(1)
+        FROM `t_user`
+    </select>
+    <select id="queryByIsAdmin" resultMap="pw.User">
+        SELECT `u_id`,`u_name`,`u_pwd`,`is_admin`
+        FROM `t_user`
+        WHERE `is_admin` = #{isadmin}
+    </select>
+    
+    <select id="queryUserByPage" resultMap="pw.User">
+        SELECT *
+        FROM 't_user'
+        WHERE `u_id` = #{uid}
+        LIMIT #{startPos},#{pageSize}
+    </select>
+</mapper>

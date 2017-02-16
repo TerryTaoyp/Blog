@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pandawork.mapper.BlogMapper">
+    <insert id="newBlog">
+        INSERT INTO
+        `t_blog`(
+        `b_name`,`b_lable`,`b_context`,`u_name`
+        )VALUES (
+       #{blog.bname},#{blog.blable},#{blog.bcontext},#{blog.uname}
+        )
+    </insert>
+
+    <delete id="delBlogById">
+        DELETE FROM `t_blog`
+        WHERE `b_id`= #{bid}
+    </delete>
+
+    <update id="updateBlog">
+        UPDATE `t_blog`
+        SET
+        `b_name`= #{blog.bname},
+        `b_lable`= #{blog.blable},
+        `b_context`= #{blog.bcontext}
+        WHERE `b_id`= #{blog.bid}
+    </update>
+
+    <select id="countAll" resultType="int">
+        SELECT COUNT(1)
+        FROM `t_blog`
+    </select>
+
+    <select id="listAllBlog" resultMap="pw.Blog">
+        SELECT *
+        FROM `t_blog`
+    </select>
+
+    <select id="queryBlogById" resultMap="pw.Blog">
+        SELECT `b_id`,`b_name`,`b_lable`,`b_context`
+        FROM `t_blog`
+        WHERE `b_id`= #{bid}
+    </select>
+
+    <select id="queryBlogByName" resultMap="pw.Blog">
+        SELECT `b_id`,`b_name`,`b_lable`,`b_context`,`u_name`
+        FROM `t_blog`
+        WHERE `b_name` = #{bname}
+    </select>
+    <select id="queryMore"  resultMap="pw.Blog">
+        SELECT *
+        FROM `t_blog`
+        <where>
+            <if test="bname != ''">
+                AND `b_name` LIKE concat('%',#{bname},'%')
+            </if>
+            <if test="blable != ''">
+                AND `b_lable`LIKE concat('%', #{blable},'%')
+            </if>
+            <if test="uname != ''">
+                AND `u_name` = #{uname}
+            </if>
+        </where>
+    </select>
+    <select id="queryByUname" resultMap="pw.Blog">
+        SELECT `b_id`,`b_name`,`b_lable`,`u_name`
+        FROM `t_blog`
+        WHERE `u_name` = #{uname}
+    </select>
+    <select id="queryByBlable" resultMap="pw.Blog">
+        SELECT `b_name`,`b_lable`,`u_name`
+        FROM `t_blog`
+        WHERE `b_lable` = #{blable}
+    </select>
+    <select id="queryByUnameAndBlable" resultMap="pw.Blog">
+        SELECT `b_name`,`b_lable`,`u_name`
+        FROM `t_blog`
+        WHERE `u_name` = #{uname} AND `b_lable` = #{blable}
+    </select>
+</mapper>

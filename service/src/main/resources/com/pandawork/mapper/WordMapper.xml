@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pandawork.mapper.WordMapper">
+    <insert id="newWord">
+        INSERT INTO `t_userwords`(
+        `b_id`,`u_name`,`w_contant`
+        )VALUES (
+        #{word.bid},#{word.uname},#{word.wcontant}
+    )
+    </insert>
+    <delete id="delWord">
+        DELETE FROM `t_userwords`
+        WHERE `w_id` = #{wid}
+    </delete>
+    <select id="queryByBid" resultMap="pw.Word">
+        SELECT `u_name`,`w_contant`
+        FROM `t_userwords`
+        WHERE `b_id` = #{bid}
+    </select>
+</mapper>
